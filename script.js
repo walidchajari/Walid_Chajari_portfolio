@@ -187,4 +187,35 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-console.log('✓ Walid Chajari — Portfolio mis à jour avec le thème Finance & Data Science');
+// ─── Mouse Parallax on Profile Image ──────────────
+(function initParallax() {
+  const hero = document.querySelector('.hero');
+  const profile = document.querySelector('.profile-frame');
+  if (!hero || !profile) return;
+
+  hero.addEventListener('mousemove', (e) => {
+    const rect = hero.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    profile.style.transform = `perspective(800px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg)`;
+  });
+
+  hero.addEventListener('mouseleave', () => {
+    profile.style.transform = 'perspective(800px) rotateY(0deg) rotateX(0deg)';
+    profile.style.transition = 'transform 0.6s ease';
+    setTimeout(() => { profile.style.transition = ''; }, 600);
+  });
+})();
+
+// ─── Ripple Effect on Buttons ─────────────────────
+document.querySelectorAll('.btn-primary, .btn-outline').forEach(btn => {
+  btn.addEventListener('click', function (e) {
+    const ripple = document.createElement('span');
+    ripple.className = 'ripple';
+    const rect = this.getBoundingClientRect();
+    ripple.style.left = (e.clientX - rect.left) + 'px';
+    ripple.style.top = (e.clientY - rect.top) + 'px';
+    this.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+  });
+});

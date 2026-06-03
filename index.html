@@ -55,6 +55,29 @@
   <section id="home" class="hero">
     <div class="hero-bg">
       <div class="grid-overlay"></div>
+      <div class="data-particles">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+      <div class="data-nodes">
+        <i class="node-hex"></i>
+        <i class="node-circle"></i>
+        <i class="node-bar"></i>
+        <i class="node-diamond"></i>
+        <i class="node-wave"></i>
+      </div>
+      <div class="data-bars">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+      <div class="data-stream s1"></div>
+      <div class="data-stream s2"></div>
+      <div class="data-stream s3"></div>
+      <div class="data-stream s4"></div>
+      <div class="sparkle-dust">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+      <div class="scan-line"></div>
+      <div class="glow-orb orb-1"></div>
+      <div class="glow-orb orb-2"></div>
     </div>
     <div class="hero-content">
       <div class="hero-text">
@@ -62,7 +85,7 @@
           <span class="ticker-dot"></span>
           MARCHÉ FINANCIER
         </div>
-        <h1 class="hero-title" id="typed-title"></h1>
+        <h1 class="hero-title gradient-text" id="typed-title"></h1>
         <p class="hero-description"
            data-en="Master's student in Finance & Data Science. I transform raw data into strategic decisions — combining financial rigor with machine learning to build high-impact solutions."
            data-fr="Étudiant en Master Finance & Data Science. Je transforme la donnée brute en décisions stratégiques — en alliant la rigueur financière au machine learning pour bâtir des solutions à fort impact."
@@ -100,16 +123,16 @@
           </a>
         </div>
       </div>
-      <div class="hero-visual">
+      <div class="hero-visual profile-float">
         <div class="profile-frame">
           <div class="profile-ring"></div>
           <img src="assets/66ffd6aa-b1dd-4ad6-a474-6ebc5b950125.png" alt="Walid Chajari" class="profile-img" />
         </div>
         <div class="chart-decoration">
           <svg viewBox="0 0 200 60" class="chart-line">
-            <polyline fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            <polyline fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chart-path"
               points="0,50 20,45 40,48 60,30 80,35 100,15 120,25 140,10 160,18 180,5 200,12" />
-            <polyline fill="none" stroke="var(--accent)" stroke-width="1" stroke-opacity="0.3" stroke-linecap="round" stroke-linejoin="round"
+            <polyline fill="none" stroke="var(--accent)" stroke-width="1" stroke-opacity="0.3" stroke-linecap="round" stroke-linejoin="round" class="chart-glow"
               points="0,55 20,52 40,54 60,42 80,46 100,30 120,38 140,22 160,28 180,16 200,22" />
           </svg>
         </div>
@@ -121,7 +144,7 @@
   <section id="about" data-scroll>
     <div class="container">
       <div class="section-header">
-        <span class="section-tag" data-en="About" data-fr="À propos" data-ar="حول">À propos</span>
+        <span class="section-tag section-tag-shimmer" data-en="About" data-fr="À propos" data-ar="حول">À propos</span>
         <h2 data-en="Who I Am" data-fr="Qui je suis" data-ar="من أنا">Qui je suis</h2>
       </div>
       <div class="about-grid">
@@ -183,11 +206,11 @@
   <section id="skills" data-scroll>
     <div class="container">
       <div class="section-header">
-        <span class="section-tag" data-en="Skills" data-fr="Compétences" data-ar="المهارات">Compétences</span>
+        <span class="section-tag section-tag-shimmer" data-en="Skills" data-fr="Compétences" data-ar="المهارات">Compétences</span>
         <h2 data-en="My Toolkit" data-fr="Mon arsenal" data-ar="أدواتي">Mon arsenal</h2>
       </div>
       <div class="skills-grid">
-        <div class="skill-card">
+        <div class="skill-card card-border-glow">
           <div class="skill-card-head">
             <i class="fas fa-code"></i>
             <h3 data-en="Technical" data-fr="Techniques" data-ar="تقنية">Techniques</h3>
@@ -198,7 +221,7 @@
             <span>Pandas</span><span>NumPy</span><span>FastAPI</span>
           </div>
         </div>
-        <div class="skill-card">
+        <div class="skill-card card-border-glow">
           <div class="skill-card-head">
             <i class="fas fa-chart-pie"></i>
             <h3 data-en="Financial" data-fr="Financières" data-ar="مالية">Financières</h3>
@@ -209,7 +232,7 @@
             <span>Modélisation Financière</span><span>Eviews</span>
           </div>
         </div>
-        <div class="skill-card">
+        <div class="skill-card card-border-glow">
           <div class="skill-card-head">
             <i class="fas fa-database"></i>
             <h3 data-en="Data & Tools" data-fr="Données & Outils" data-ar="بيانات وأدوات">Données & Outils</h3>
@@ -220,7 +243,7 @@
             <span>Playwright</span>
           </div>
         </div>
-        <div class="skill-card">
+        <div class="skill-card card-border-glow">
           <div class="skill-card-head">
             <i class="fas fa-users"></i>
             <h3 data-en="Soft Skills" data-fr="Transversales" data-ar="مهارات ناعمة">Transversales</h3>
@@ -238,7 +261,7 @@
   <section id="experience" data-scroll>
     <div class="container">
       <div class="section-header">
-        <span class="section-tag" data-en="Experience" data-fr="Parcours" data-ar="الخبرة">Parcours</span>
+        <span class="section-tag section-tag-shimmer" data-en="Experience" data-fr="Parcours" data-ar="الخبرة">Parcours</span>
         <h2 data-en="My Journey" data-fr="Mon parcours" data-ar="رحلتي">Mon parcours</h2>
       </div>
       <div class="timeline">
@@ -300,13 +323,13 @@
   <section id="projects" data-scroll>
     <div class="container">
       <div class="section-header">
-        <span class="section-tag" data-en="Projects" data-fr="Projets" data-ar="المشاريع">Projets</span>
+        <span class="section-tag section-tag-shimmer" data-en="Projects" data-fr="Projets" data-ar="المشاريع">Projets</span>
         <h2 data-en="What I Build" data-fr="Mes réalisations" data-ar="إنجازاتي">Mes réalisations</h2>
       </div>
       <div class="projects-grid">
 
         <!-- 1. Bourse Casablanca Live -->
-        <div class="project-card" data-scroll>
+        <div class="project-card card-border-glow" data-scroll>
           <div class="project-carousel">
             <div class="carousel-track">
               <img src="assets/1762209469808.jpeg" alt="Bourse Casablanca Live 1" class="carousel-img active" />
@@ -339,7 +362,7 @@
         </div>
 
         <!-- 2. Financial Analyzer -->
-        <div class="project-card" data-scroll>
+        <div class="project-card card-border-glow" data-scroll>
           <div class="project-body">
             <div class="project-header">
               <h3 class="project-title">Financial Analyzer</h3>
@@ -362,7 +385,7 @@
         </div>
 
         <!-- 3. Tradsense -->
-        <div class="project-card" data-scroll>
+        <div class="project-card card-border-glow" data-scroll>
           <div class="project-body">
             <div class="project-header">
               <h3 class="project-title">Tradsense</h3>
@@ -388,7 +411,7 @@
         </div>
 
         <!-- 4. Détection de Fraude ML -->
-        <div class="project-card" data-scroll>
+        <div class="project-card card-border-glow" data-scroll>
           <div class="project-body">
             <div class="project-header">
               <h3 class="project-title">Fraud Detection ML</h3>
@@ -411,7 +434,7 @@
         </div>
 
         <!-- 5. Expired Domain Agent -->
-        <div class="project-card" data-scroll>
+        <div class="project-card card-border-glow" data-scroll>
           <div class="project-body">
             <div class="project-header">
               <h3 class="project-title">Expired Domain Agent</h3>
@@ -441,7 +464,7 @@
   <section id="contact" data-scroll>
     <div class="container">
       <div class="section-header">
-        <span class="section-tag" data-en="Contact" data-fr="Contact" data-ar="التواصل">Contact</span>
+        <span class="section-tag section-tag-shimmer" data-en="Contact" data-fr="Contact" data-ar="التواصل">Contact</span>
         <h2 data-en="Let's Work Together" data-fr="Travaillons ensemble" data-ar="لنعمل معًا">Travaillons ensemble</h2>
       </div>
       <div class="contact-card">
