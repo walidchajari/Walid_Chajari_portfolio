@@ -1,0 +1,215 @@
+import { useEffect, useRef, useState } from 'react'
+import { motion } from 'framer-motion'
+import AnimatedSection from '../components/AnimatedSection'
+import { personal, languages } from '../data'
+import { useLanguage } from '../context/LanguageContext'
+
+function Counter({ target, suffix = '' }: { target: number | string; suffix?: string }) {
+  const [val, setVal] = useState(0)
+  const ref = useRef<HTMLSpanElement>(null)
+  const isString = typeof target === 'string'
+
+  useEffect(() => {
+    if (isString) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return
+        let start = 0
+        const step = (target as number) / 40
+        const timer = setInterval(() => {
+          start += step
+          if (start >= (target as number)) { setVal(target as number); clearInterval(timer) }
+          else setVal(Math.floor(start))
+        }, 20)
+        observer.disconnect()
+      },
+      { threshold: 0.6 }
+    )
+    if (ref.current) observer.observe(ref.current)
+    return () => observer.disconnect()
+  }, [target, isString])
+
+  if (isString) return <span ref={ref as React.RefObject<HTMLSpanElement>}>{target}</span>
+  return <span ref={ref}>{val}{suffix}</span>
+}
+
+export default function About() {
+  const { t, isRTL } = useLanguage()
+
+  const stats = [
+    { value: 2, label: t.about.stats.projects },
+    { value: 'XAI', label: t.about.stats.focus },
+    { value: 'ISO 20022', label: t.about.stats.standard },
+  ]
+
+  return (
+    <section id="about" className="py-28 relative" style={{ background: 'var(--bg)' }} dir={isRTL ? 'rtl' : 'ltr'}>
+      {/* Subtle accent line at top */}
+      <div className="glow-line absolute top-0 left-0 right-0" />
+
+      <div className="section-container">
+        <AnimatedSection>
+          <span className="section-label">{t.about.label}</span>
+          <h2 className="mt-3 text-3xl lg:text-4xl font-bold tracking-tight" style={{ color: 'var(--text)', lineHeight: 1.12 }}>
+            {t.about.title}<br />
+            <span className="text-gradient-accent">{t.about.titleAccent}</span>
+          </h2>
+        </AnimatedSection>
+
+        <div className="mt-14 grid lg:grid-cols-5 gap-12 items-start">
+          {/* Bio */}
+          <AnimatedSection className="lg:col-span-3" delay={0.1}>
+            <div className="space-y-4 text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+              <p>{t.about.bio1}</p>
+              <p>{t.about.bio2}</p>
+              <p>{t.about.bio3}</p>
+            </div>
+
+            {/* Animated stats */}
+            <div
+              className="mt-8 grid grid-cols-3 gap-6 pt-8"
+              style={{ borderTop: '1px solid var(--border)' }}
+            >
+              {stats.map((stat, i) => (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.12 }}
+                >
+                  <p
+                    className="font-mono text-2xl font-bold"
+                    style={{ color: i === 0 ? 'var(--accent)' : i === 1 ? 'var(--accent-2)' : 'var(--text)' }}
+                  >
+                    <Counter target={stat.value} />
+                  </p>
+                  <p className="font-mono text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+                    {stat.label}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          </AnimatedSection>
+
+          {/* Right panel */}
+          <AnimatedSection className="lg:col-span-2 space-y-3" delay={0.2}>
+            {/* Profile card */}
+            {personal.profileImage && (
+              <motion.div
+                className="card overflow-hidden"
+                whileHover={{ scale: 1.01 }}
+              >
+                {/* Blue accent bar */}
+                <div className="h-0.5" style={{ background: 'linear-gradient(90deg, #2563EB, #0891B2)' }} />
+                <div className="p-5 flex flex-col items-center text-center gap-4">
+                  {/* Photo */}
+                  <div className="relative">
+                    <div
+                      className="w-24 h-24 rounded-full overflow-hidden"
+                      style={{
+                        boxShadow: '0 0 0 2px var(--accent), 0 0 0 4px rgba(59,130,246,0.12), 0 8px 24px rgba(0,8,20,0.4)',
+                      }}
+                    >
+                      <img
+                        src={personal.profileImage}
+                        alt="Walid CHAJARI"
+                        className="w-full h-full object-cover object-top"
+                      />
+                    </div>
+                    <span
+                      className="absolute bottom-0.5 right-0.5 w-3.5 h-3.5 rounded-full border-2"
+                      style={{ background: 'var(--success)', borderColor: 'var(--surface)' }}
+                    />
+                  </div>
+
+                  {/* Identity */}
+                  <div>
+                    <p className="font-bold text-base" style={{ color: 'var(--text)' }}>
+                      {personal.name}
+                    </p>
+                    <p className="font-mono text-xs mt-1" style={{ color: 'var(--accent)' }}>
+                      Data Scientist · ML Engineer
+                    </p>
+                    <p className="font-mono text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
+                      {personal.location}
+                    </p>
+                  </div>
+
+                  {/* Status */}
+                  <div
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-full"
+                    style={{ background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.2)' }}
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="font-mono text-xs" style={{ color: '#34D399' }}>
+                      Disponible · Open to work
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {/* Education */}
+            <div className="card p-5">
+              <p className="section-label mb-3">{t.about.education}</p>
+              <div className="space-y-3">
+                <div>
+                  <p className="text-sm font-semibold" style={{ color: 'var(--text)' }}>
+                    Master Finance &amp; Data Science
+                  </p>
+                  <p className="text-xs mt-0.5" style={{ color: 'var(--text-secondary)' }}>
+                    Université Hassan II · 2025–2026
+                  </p>
+                  <span className="tag-accent mt-2 inline-block">Mention Bien</span>
+                </div>
+                <div style={{ borderTop: '1px solid var(--border)', paddingTop: 12 }}>
+                  <p className="text-sm font-semibold" style={{ color: 'var(--text)' }}>
+                    Licence Fondamentale en Gestion
+                  </p>
+                  <p className="text-xs mt-0.5" style={{ color: 'var(--text-secondary)' }}>
+                    Université Hassan II · 2021–2024
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Languages */}
+            <div className="card p-5">
+              <p className="section-label mb-3">{t.about.languages}</p>
+              <div className="space-y-2">
+                {languages.map((lang, i) => (
+                  <motion.div
+                    key={lang.code}
+                    className="flex items-center justify-between"
+                    initial={{ opacity: 0, x: isRTL ? -12 : 12 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.07 }}
+                  >
+                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                      {lang.name}
+                    </span>
+                    <span
+                      className="tag"
+                      style={{
+                        color: lang.level === 'Native' || lang.level === 'B2'
+                          ? 'var(--accent)'
+                          : 'var(--text-secondary)',
+                        borderColor: lang.level === 'Native' || lang.level === 'B2'
+                          ? 'rgba(14,165,233,0.3)'
+                          : 'var(--border)',
+                      }}
+                    >
+                      {lang.level}
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </AnimatedSection>
+        </div>
+      </div>
+    </section>
+  )
+}
