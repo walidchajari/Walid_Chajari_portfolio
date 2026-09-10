@@ -1,49 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import AnimatedSection from '../components/AnimatedSection'
 import { personal, languages } from '../data'
 import { useLanguage } from '../context/LanguageContext'
 import NeuralCanvas from '../components/NeuralCanvas'
 import MLMetrics from '../components/MLMetrics'
-import LossChart from '../components/LossChart'
-
-function Counter({ target, suffix = '' }: { target: number | string; suffix?: string }) {
-  const [val, setVal] = useState(0)
-  const ref = useRef<HTMLSpanElement>(null)
-  const isString = typeof target === 'string'
-
-  useEffect(() => {
-    if (isString) return
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return
-        let start = 0
-        const step = (target as number) / 40
-        const timer = setInterval(() => {
-          start += step
-          if (start >= (target as number)) { setVal(target as number); clearInterval(timer) }
-          else setVal(Math.floor(start))
-        }, 20)
-        observer.disconnect()
-      },
-      { threshold: 0.6 }
-    )
-    if (ref.current) observer.observe(ref.current)
-    return () => observer.disconnect()
-  }, [target, isString])
-
-  if (isString) return <span ref={ref as React.RefObject<HTMLSpanElement>}>{target}</span>
-  return <span ref={ref}>{val}{suffix}</span>
-}
 
 export default function About() {
   const { t, isRTL } = useLanguage()
-
-  const stats = [
-    { value: 2, label: t.about.stats.projects },
-    { value: 'XAI', label: t.about.stats.focus },
-    { value: 'ISO 20022', label: t.about.stats.standard },
-  ]
 
   return (
     <section id="about" className="py-28 relative" style={{ background: 'var(--bg)' }} dir={isRTL ? 'rtl' : 'ltr'}>
@@ -69,34 +32,8 @@ export default function About() {
               <p>{t.about.bio3}</p>
             </div>
 
-            {/* ML Metrics KPI bar */}
+            {/* ML Metrics KPI bar with data science background */}
             <MLMetrics />
-
-            {/* Animated stats */}
-            <div
-              className="mt-8 grid grid-cols-3 gap-6 pt-8"
-              style={{ borderTop: '1px solid var(--border)' }}
-            >
-              {stats.map((stat, i) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.12 }}
-                >
-                  <p
-                    className="font-mono text-2xl font-bold"
-                    style={{ color: i === 0 ? 'var(--accent)' : i === 1 ? 'var(--accent-2)' : 'var(--text)' }}
-                  >
-                    <Counter target={stat.value} />
-                  </p>
-                  <p className="font-mono text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
-                    {stat.label}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
           </AnimatedSection>
 
           {/* Right panel */}
@@ -156,9 +93,6 @@ export default function About() {
                 </div>
               </motion.div>
             )}
-
-            {/* Loss Chart */}
-            <LossChart />
 
             {/* Education */}
             <div className="card p-5">
