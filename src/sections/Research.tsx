@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import AnimatedSection from '../components/AnimatedSection'
 import { useLanguage } from '../context/LanguageContext'
+import NeuralCanvas from '../components/NeuralCanvas'
 
 const accentColors = ['#0EA5E9', '#8B5CF6', '#10B981', '#F59E0B', '#F87171', '#7DD3FC']
 
@@ -14,15 +15,17 @@ export default function Research() {
       style={{ background: 'var(--surface)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}
       dir={isRTL ? 'rtl' : 'ltr'}
     >
+      <NeuralCanvas count={22} />
       {/* Background radial */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background: 'radial-gradient(ellipse 50% 50% at 80% 50%, rgba(14,165,233,0.03) 0%, transparent 70%)',
+          zIndex: 1,
         }}
       />
 
-      <div className="section-container relative">
+      <div className="section-container relative" style={{ zIndex: 2 }}>
         <AnimatedSection>
           <span className="section-label">{t.research.label}</span>
           <h2 className="mt-3 text-3xl lg:text-4xl font-bold tracking-tight" style={{ color: 'var(--text)' }}>

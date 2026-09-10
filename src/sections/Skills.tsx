@@ -2,6 +2,8 @@ import { motion } from 'framer-motion'
 import AnimatedSection from '../components/AnimatedSection'
 import { skills } from '../data'
 import { useLanguage } from '../context/LanguageContext'
+import NeuralCanvas from '../components/NeuralCanvas'
+import MatrixRain from '../components/MatrixRain'
 
 const categoryColors = [
   'var(--accent)',
@@ -28,15 +30,19 @@ export default function Skills() {
       }}
       dir={isRTL ? 'rtl' : 'ltr'}
     >
+      <NeuralCanvas count={30} />
+      <MatrixRain opacity={0.05} />
+
       {/* Background accent */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background: 'radial-gradient(ellipse 60% 40% at 50% 50%, rgba(139,92,246,0.03) 0%, transparent 70%)',
+          zIndex: 1,
         }}
       />
 
-      <div className="section-container relative">
+      <div className="section-container relative" style={{ zIndex: 2 }}>
         <AnimatedSection>
           <span className="section-label">{t.skills.label}</span>
           <h2 className="mt-3 text-3xl lg:text-4xl font-bold tracking-tight" style={{ color: 'var(--text)' }}>

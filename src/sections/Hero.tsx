@@ -5,6 +5,7 @@ import { personal } from '../data'
 import { useLanguage } from '../context/LanguageContext'
 import PipelineTerminal from '../components/PipelineTerminal'
 import NeuralCanvas from '../components/NeuralCanvas'
+import MLMetrics from '../components/MLMetrics'
 
 function useTyping(text: string, speed = 50) {
   const [displayed, setDisplayed] = useState('')
@@ -198,6 +199,8 @@ export default function Hero() {
                 {personal.email}
               </a>
             </motion.div>
+            {/* ML performance metrics */}
+            <MLMetrics />
           </div>
 
           {/* ── Right — Pipeline terminal ── */}

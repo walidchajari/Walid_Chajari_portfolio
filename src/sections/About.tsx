@@ -3,6 +3,9 @@ import { motion } from 'framer-motion'
 import AnimatedSection from '../components/AnimatedSection'
 import { personal, languages } from '../data'
 import { useLanguage } from '../context/LanguageContext'
+import NeuralCanvas from '../components/NeuralCanvas'
+import MLMetrics from '../components/MLMetrics'
+import LossChart from '../components/LossChart'
 
 function Counter({ target, suffix = '' }: { target: number | string; suffix?: string }) {
   const [val, setVal] = useState(0)
@@ -44,10 +47,11 @@ export default function About() {
 
   return (
     <section id="about" className="py-28 relative" style={{ background: 'var(--bg)' }} dir={isRTL ? 'rtl' : 'ltr'}>
+      <NeuralCanvas count={24} />
       {/* Subtle accent line at top */}
-      <div className="glow-line absolute top-0 left-0 right-0" />
+      <div className="glow-line absolute top-0 left-0 right-0" style={{ zIndex: 1 }} />
 
-      <div className="section-container">
+      <div className="section-container" style={{ position: 'relative', zIndex: 2 }}>
         <AnimatedSection>
           <span className="section-label">{t.about.label}</span>
           <h2 className="mt-3 text-3xl lg:text-4xl font-bold tracking-tight" style={{ color: 'var(--text)', lineHeight: 1.12 }}>
@@ -64,6 +68,9 @@ export default function About() {
               <p>{t.about.bio2}</p>
               <p>{t.about.bio3}</p>
             </div>
+
+            {/* ML Metrics KPI bar */}
+            <MLMetrics />
 
             {/* Animated stats */}
             <div
@@ -149,6 +156,9 @@ export default function About() {
                 </div>
               </motion.div>
             )}
+
+            {/* Loss Chart */}
+            <LossChart />
 
             {/* Education */}
             <div className="card p-5">

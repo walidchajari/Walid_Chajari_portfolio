@@ -3,6 +3,7 @@ import { Download, FileText } from 'lucide-react'
 import AnimatedSection from '../components/AnimatedSection'
 import { education, internships, documents, EducationItem, InternshipItem, DocumentItem } from '../data'
 import { useLanguage } from '../context/LanguageContext'
+import NeuralCanvas from '../components/NeuralCanvas'
 
 // ─── Document download card ───────────────────────────────────────────────────
 
@@ -221,8 +222,9 @@ export default function Experience() {
   const { t, isRTL } = useLanguage()
 
   return (
-    <section id="experience" className="py-28" style={{ background: 'var(--bg)' }} dir={isRTL ? 'rtl' : 'ltr'}>
-      <div className="section-container space-y-24">
+    <section id="experience" className="py-28 relative" style={{ background: 'var(--bg)' }} dir={isRTL ? 'rtl' : 'ltr'}>
+      <NeuralCanvas count={22} />
+      <div className="section-container space-y-24" style={{ position: 'relative', zIndex: 1 }}>
 
         {/* ── Professional Experience ─────────────────── */}
         <div>

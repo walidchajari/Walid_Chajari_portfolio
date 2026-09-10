@@ -3,6 +3,7 @@ import { Mail, Linkedin, Github, Phone } from 'lucide-react'
 import AnimatedSection from '../components/AnimatedSection'
 import { personal } from '../data'
 import { useLanguage } from '../context/LanguageContext'
+import NeuralCanvas from '../components/NeuralCanvas'
 
 export default function Contact() {
   const { t, isRTL } = useLanguage()
@@ -16,6 +17,7 @@ export default function Contact() {
 
   return (
     <section id="contact" className="py-28 relative" style={{ background: 'var(--bg)' }} dir={isRTL ? 'rtl' : 'ltr'}>
+      <NeuralCanvas count={20} />
       {/* Orb */}
       <div
         className="orb absolute"
@@ -23,11 +25,12 @@ export default function Contact() {
           width: 500, height: 500,
           background: 'radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 70%)',
           bottom: '-100px', right: '-100px',
+          zIndex: 1,
           '--dur': '14s',
         } as React.CSSProperties}
       />
 
-      <div className="section-container relative">
+      <div className="section-container relative" style={{ zIndex: 2 }}>
         <div className="max-w-xl mx-auto text-center">
           <AnimatedSection>
             <span className="section-label">{t.contact.label}</span>

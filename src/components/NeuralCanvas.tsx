@@ -5,7 +5,9 @@ interface Particle {
   r: number; phase: number
 }
 
-export default function NeuralCanvas() {
+interface Props { count?: number }
+
+export default function NeuralCanvas({ count = 42 }: Props) {
   const ref = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -13,7 +15,7 @@ export default function NeuralCanvas() {
     const ctx = canvas.getContext('2d')!
     let raf: number
     const particles: Particle[] = []
-    const N = 42
+    const N = count
     const LINK_DIST = 160
 
     const resize = () => {
@@ -80,7 +82,7 @@ export default function NeuralCanvas() {
     const onResize = () => resize()
     window.addEventListener('resize', onResize)
     return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', onResize) }
-  }, [])
+  }, [count])
 
   return (
     <canvas
