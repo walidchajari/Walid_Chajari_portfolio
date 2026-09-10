@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion'
 import AnimatedSection from '../components/AnimatedSection'
-import { researchInterests } from '../data'
 import { useLanguage } from '../context/LanguageContext'
 
 const accentColors = ['#0EA5E9', '#8B5CF6', '#10B981', '#F59E0B', '#F87171', '#7DD3FC']
@@ -35,7 +34,7 @@ export default function Research() {
         </AnimatedSection>
 
         <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {researchInterests.map((item, i) => (
+          {t.content.researchInterests.map((item, i) => (
             <motion.div
               key={item.label}
               initial={{ opacity: 0, y: 18, scale: 0.97 }}

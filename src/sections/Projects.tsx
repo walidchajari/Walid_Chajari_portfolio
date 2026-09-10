@@ -5,7 +5,12 @@ import AnimatedSection from '../components/AnimatedSection'
 import { projects, Project } from '../data'
 import { useLanguage } from '../context/LanguageContext'
 
-function ProjectCard({ project, index, t }: { project: Project; index: number; t: { caseStudy: string; code: string; demo: string; statusLabels: Record<string, string> } }) {
+function ProjectCard({ project, index, t, localContent }: {
+  project: Project
+  index: number
+  t: { caseStudy: string; code: string; demo: string; statusLabels: Record<string, string> }
+  localContent: { title: string; description: string; highlights: string[] }
+}) {
   const navigate = useNavigate()
   const hasDetail = project.status === 'flagship' || project.status === 'research'
 
@@ -58,19 +63,19 @@ function ProjectCard({ project, index, t }: { project: Project; index: number; t
           className="text-lg font-semibold leading-snug mb-1 transition-colors group-hover:text-blue-400"
           style={{ color: 'var(--text)' }}
         >
-          {project.title}
+          {localContent.title}
         </h3>
         <p className="font-mono text-xs mb-4" style={{ color: 'var(--text-muted)' }}>
           {project.subtitle}
         </p>
 
         <p className="text-sm leading-relaxed mb-5" style={{ color: 'var(--text-secondary)' }}>
-          {project.description}
+          {localContent.description}
         </p>
 
-        {project.highlights.length > 0 && (
+        {localContent.highlights.length > 0 && (
           <ul className="space-y-1.5 mb-5">
-            {project.highlights.slice(0, 3).map((h, i) => (
+            {localContent.highlights.slice(0, 3).map((h, i) => (
               <li key={i} className="flex items-start gap-2 text-xs" style={{ color: 'var(--text-secondary)' }}>
                 <span style={{ color: 'var(--accent)', marginTop: 2, flexShrink: 0 }}>›</span>
                 {h}
@@ -144,9 +149,16 @@ export default function Projects() {
         </AnimatedSection>
 
         <div className="mt-12 grid md:grid-cols-2 gap-5">
-          {projects.map((project, i) => (
-            <ProjectCard key={project.id} project={project} index={i} t={t.projects} />
-          ))}
+          {projects.map((project, i) => {
+            const localContent = t.content.projects[project.id] ?? {
+              title: project.title,
+              description: project.description,
+              highlights: project.highlights,
+            }
+            return (
+              <ProjectCard key={project.id} project={project} index={i} t={t.projects} localContent={localContent} />
+            )
+          })}
         </div>
       </div>
     </section>

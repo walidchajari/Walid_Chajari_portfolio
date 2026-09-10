@@ -7,13 +7,16 @@ import { useLanguage } from '../context/LanguageContext'
 // ─── Document download card ───────────────────────────────────────────────────
 
 function DocCard({ doc, index }: { doc: DocumentItem; index: number }) {
+  const { t } = useLanguage()
+
   const typeColors: Record<string, { color: string; bg: string; border: string }> = {
-    'Diplôme':          { color: '#0EA5E9', bg: 'rgba(14,165,233,0.08)',  border: 'rgba(14,165,233,0.2)' },
-    'Document officiel':{ color: '#8B5CF6', bg: 'rgba(139,92,246,0.08)', border: 'rgba(139,92,246,0.2)' },
-    'Certification':    { color: '#10B981', bg: 'rgba(16,185,129,0.08)', border: 'rgba(16,185,129,0.2)' },
-    'CV':               { color: '#F59E0B', bg: 'rgba(245,158,11,0.08)', border: 'rgba(245,158,11,0.2)' },
+    diploma:       { color: '#0EA5E9', bg: 'rgba(14,165,233,0.08)',  border: 'rgba(14,165,233,0.2)' },
+    official:      { color: '#8B5CF6', bg: 'rgba(139,92,246,0.08)', border: 'rgba(139,92,246,0.2)' },
+    certification: { color: '#10B981', bg: 'rgba(16,185,129,0.08)', border: 'rgba(16,185,129,0.2)' },
+    cv:            { color: '#F59E0B', bg: 'rgba(245,158,11,0.08)', border: 'rgba(245,158,11,0.2)' },
   }
-  const c = typeColors[doc.type] ?? typeColors['Diplôme']
+  const c = typeColors[doc.typeKey] ?? typeColors.diploma
+  const typeLabel = t.content.documents[doc.typeKey]
 
   return (
     <motion.a
@@ -40,7 +43,7 @@ function DocCard({ doc, index }: { doc: DocumentItem; index: number }) {
           {doc.label}
         </p>
         <p className="font-mono text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
-          {doc.type}
+          {typeLabel}
         </p>
       </div>
       <Download
@@ -55,6 +58,9 @@ function DocCard({ doc, index }: { doc: DocumentItem; index: number }) {
 // ─── Education card ───────────────────────────────────────────────────────────
 
 function EduCard({ item, index }: { item: EducationItem; index: number }) {
+  const { t } = useLanguage()
+  const localEdu = t.content.education[item.id] ?? { degree: item.degree, description: item.description }
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -66,19 +72,19 @@ function EduCard({ item, index }: { item: EducationItem; index: number }) {
       <span className="tag self-start">{item.year}</span>
       <div>
         <h3 className="text-sm font-semibold leading-snug" style={{ color: 'var(--text)' }}>
-          {item.degree}
+          {localEdu.degree}
         </h3>
         <p className="text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>
           {item.school}
         </p>
       </div>
-      {item.description && (
+      {localEdu.description && (
         <p className="text-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>
-          {item.description}
+          {localEdu.description}
         </p>
       )}
       {item.mention && (
-        <span className="tag-accent self-start">{item.mention}</span>
+        <span className="tag-accent self-start">{t.about.mentionBien}</span>
       )}
     </motion.div>
   )
@@ -92,8 +98,17 @@ const stageColors = [
 ]
 
 function InternCard({ item, index }: { item: InternshipItem; index: number }) {
+  const { t } = useLanguage()
   const c = stageColors[index % stageColors.length]
-  const isPFE = item.type === 'Stage PFE'
+  const isPFE = item.id === 'peaqock-pfe'
+
+  const local = t.content.internships[item.id] ?? {
+    type: item.type,
+    title: item.title,
+    period: item.period,
+    mission: item.mission,
+    bullets: item.bullets,
+  }
 
   return (
     <motion.div
@@ -113,15 +128,15 @@ function InternCard({ item, index }: { item: InternshipItem; index: number }) {
             className="font-mono text-xs px-3 py-1 rounded-full font-semibold"
             style={{ color: c.accent, background: `${c.accent}12`, border: `1px solid ${c.accent}28` }}
           >
-            {item.type}
+            {local.type}
           </span>
-          <span className="tag">{item.period}</span>
+          <span className="tag">{local.period}</span>
           {isPFE && (
             <span
               className="font-mono text-xs px-2.5 py-0.5 rounded-full"
               style={{ color: '#F59E0B', background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.25)' }}
             >
-              Projet de fin d'études
+              {t.experience.pfeLabel}
             </span>
           )}
         </div>
@@ -131,7 +146,7 @@ function InternCard({ item, index }: { item: InternshipItem; index: number }) {
           <div className="lg:col-span-1 space-y-5">
             <div>
               <h3 className="text-base font-bold mb-1" style={{ color: 'var(--text)' }}>
-                {item.title}
+                {local.title}
               </h3>
               <p className="font-mono text-sm font-semibold mb-0.5" style={{ color: c.accent }}>
                 {item.company}
@@ -146,14 +161,14 @@ function InternCard({ item, index }: { item: InternshipItem; index: number }) {
                 Stack
               </p>
               <div className="flex flex-wrap gap-1.5">
-                {item.stack.map((t) => (
-                  <span key={t} className="tag">{t}</span>
+                {item.stack.map((tech) => (
+                  <span key={tech} className="tag">{tech}</span>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Right — mission + réalisations */}
+          {/* Right — mission + achievements */}
           <div className="lg:col-span-2 space-y-5">
             {/* Mission */}
             <div
@@ -161,20 +176,20 @@ function InternCard({ item, index }: { item: InternshipItem; index: number }) {
               style={{ background: `${c.accent}08`, border: `1px solid ${c.accent}18` }}
             >
               <p className="font-mono text-xs tracking-widest uppercase mb-2" style={{ color: c.accent }}>
-                Mission / But
+                {t.experience.missionLabel}
               </p>
               <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                {item.mission}
+                {local.mission}
               </p>
             </div>
 
-            {/* Réalisations */}
+            {/* Achievements */}
             <div>
               <p className="font-mono text-xs tracking-widest uppercase mb-3" style={{ color: 'var(--text-muted)' }}>
-                Réalisations clés
+                {t.experience.achievementsLabel}
               </p>
               <ul className="space-y-2.5">
-                {item.bullets.map((b, i) => (
+                {local.bullets.map((b, i) => (
                   <motion.li
                     key={i}
                     initial={{ opacity: 0, x: -8 }}
@@ -203,23 +218,26 @@ function InternCard({ item, index }: { item: InternshipItem; index: number }) {
 // ─── Main section ─────────────────────────────────────────────────────────────
 
 export default function Experience() {
-  const { isRTL } = useLanguage()
+  const { t, isRTL } = useLanguage()
 
   return (
     <section id="experience" className="py-28" style={{ background: 'var(--bg)' }} dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="section-container space-y-24">
 
-        {/* ── Expérience professionnelle ─────────────────── */}
+        {/* ── Professional Experience ─────────────────── */}
         <div>
           <AnimatedSection>
-            <span className="section-label">Expérience professionnelle</span>
+            <span className="section-label">{t.experience.professionalLabel}</span>
             <h2 className="mt-3 text-3xl lg:text-4xl font-bold tracking-tight" style={{ color: 'var(--text)' }}>
-              Stages &amp; missions
+              {t.experience.internshipsTitle}
             </h2>
             <p className="mt-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
-              2 stages chez{' '}
-              <span style={{ color: 'var(--accent)' }}>Peaqock Financials</span>
-              {' '}— mission, réalisations clés et stack technique.
+              {(() => {
+                const parts = t.experience.internshipsSubtitle.split('Peaqock Financials')
+                return parts.length === 2
+                  ? <>{parts[0]}<span style={{ color: 'var(--accent)' }}>Peaqock Financials</span>{parts[1]}</>
+                  : t.experience.internshipsSubtitle
+              })()}
             </p>
           </AnimatedSection>
 
@@ -233,12 +251,12 @@ export default function Experience() {
         {/* Divider */}
         <div className="glow-line" />
 
-        {/* ── Formation ─────────────────────────────────── */}
+        {/* ── Education ─────────────────────────────────── */}
         <div>
           <AnimatedSection>
-            <span className="section-label">Formation</span>
+            <span className="section-label">{t.experience.educationLabel}</span>
             <h2 className="mt-3 text-3xl lg:text-4xl font-bold tracking-tight" style={{ color: 'var(--text)' }}>
-              Parcours académique
+              {t.experience.academicTitle}
             </h2>
           </AnimatedSection>
 
@@ -248,11 +266,11 @@ export default function Experience() {
             ))}
           </div>
 
-          {/* Documents téléchargeables */}
+          {/* Downloadable documents */}
           <AnimatedSection delay={0.2}>
             <div className="mt-10">
               <p className="font-mono text-xs tracking-widest uppercase mb-4" style={{ color: 'var(--text-muted)' }}>
-                Documents &amp; Attestations
+                {t.experience.docsLabel}
               </p>
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
                 {documents.map((doc, i) => (

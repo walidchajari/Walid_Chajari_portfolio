@@ -143,7 +143,7 @@ export interface EducationItem {
   degree: string
   school: string
   description?: string
-  mention?: string
+  mention?: boolean
 }
 
 export interface InternshipItem {
@@ -165,7 +165,7 @@ export const education: EducationItem[] = [
     degree: 'Master Finance & Data Science',
     school: 'Université Hassan II — FSJES Mohammedia',
     description: 'Spécialisation en analyse financière quantitative et machine learning financier.',
-    mention: 'Mention Bien',
+    mention: true,
   },
   {
     id: 'licence',
@@ -179,7 +179,7 @@ export const education: EducationItem[] = [
     year: '2019',
     degree: 'Baccalauréat Sciences Expérimentales',
     school: 'Lycée Tarek Ibn Ziad — Hay Hassani, Casablanca',
-    mention: 'Mention Bien',
+    mention: true,
     description: 'Option Sciences Physiques.',
   },
 ]
@@ -188,7 +188,7 @@ export interface DocumentItem {
   id: string
   label: string
   file: string
-  type: string
+  typeKey: 'diploma' | 'official' | 'certification' | 'cv'
 }
 
 export const documents: DocumentItem[] = [
@@ -196,25 +196,25 @@ export const documents: DocumentItem[] = [
     id: 'attestation-master',
     label: 'Attestation Master',
     file: '/docs/attestation-master.pdf',
-    type: 'Diplôme',
+    typeKey: 'diploma',
   },
   {
     id: 'attestation-fr',
     label: 'Attestation (FR)',
     file: '/docs/attestation-fr.pdf',
-    type: 'Document officiel',
+    typeKey: 'official',
   },
   {
     id: 'certificat-allemand',
     label: 'Certificat Allemand',
     file: '/docs/certificat-allemand.pdf',
-    type: 'Certification',
+    typeKey: 'certification',
   },
   {
     id: 'cv',
     label: 'Curriculum Vitæ',
     file: '/cv.pdf',
-    type: 'CV',
+    typeKey: 'cv',
   },
 ]
 

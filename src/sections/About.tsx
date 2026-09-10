@@ -129,7 +129,7 @@ export default function About() {
                       {personal.name}
                     </p>
                     <p className="font-mono text-xs mt-1" style={{ color: 'var(--accent)' }}>
-                      Data Scientist · ML Engineer
+                      {t.about.roleSubtitle}
                     </p>
                     <p className="font-mono text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
                       {personal.location}
@@ -143,7 +143,7 @@ export default function About() {
                   >
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                     <span className="font-mono text-xs" style={{ color: '#34D399' }}>
-                      Disponible · Open to work
+                      {t.about.availability}
                     </span>
                   </div>
                 </div>
@@ -156,16 +156,16 @@ export default function About() {
               <div className="space-y-3">
                 <div>
                   <p className="text-sm font-semibold" style={{ color: 'var(--text)' }}>
-                    Master Finance &amp; Data Science
+                    {t.about.masterDegree}
                   </p>
                   <p className="text-xs mt-0.5" style={{ color: 'var(--text-secondary)' }}>
                     Université Hassan II · 2025–2026
                   </p>
-                  <span className="tag-accent mt-2 inline-block">Mention Bien</span>
+                  <span className="tag-accent mt-2 inline-block">{t.about.mentionBien}</span>
                 </div>
                 <div style={{ borderTop: '1px solid var(--border)', paddingTop: 12 }}>
                   <p className="text-sm font-semibold" style={{ color: 'var(--text)' }}>
-                    Licence Fondamentale en Gestion
+                    {t.about.licenceDegree}
                   </p>
                   <p className="text-xs mt-0.5" style={{ color: 'var(--text-secondary)' }}>
                     Université Hassan II · 2021–2024
@@ -178,33 +178,34 @@ export default function About() {
             <div className="card p-5">
               <p className="section-label mb-3">{t.about.languages}</p>
               <div className="space-y-2">
-                {languages.map((lang, i) => (
-                  <motion.div
-                    key={lang.code}
-                    className="flex items-center justify-between"
-                    initial={{ opacity: 0, x: isRTL ? -12 : 12 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.07 }}
-                  >
-                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                      {lang.name}
-                    </span>
-                    <span
-                      className="tag"
-                      style={{
-                        color: lang.level === 'Native' || lang.level === 'B2'
-                          ? 'var(--accent)'
-                          : 'var(--text-secondary)',
-                        borderColor: lang.level === 'Native' || lang.level === 'B2'
-                          ? 'rgba(14,165,233,0.3)'
-                          : 'var(--border)',
-                      }}
+                {languages.map((lang, i) => {
+                  const displayName = t.content.languageNames[i] ?? lang.name
+                  const displayLevel = lang.level === 'Native' ? t.content.nativeLevel : lang.level
+                  const isHighLevel = lang.level === 'Native' || lang.level === 'B2'
+                  return (
+                    <motion.div
+                      key={lang.code}
+                      className="flex items-center justify-between"
+                      initial={{ opacity: 0, x: isRTL ? -12 : 12 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.07 }}
                     >
-                      {lang.level}
-                    </span>
-                  </motion.div>
-                ))}
+                      <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                        {displayName}
+                      </span>
+                      <span
+                        className="tag"
+                        style={{
+                          color: isHighLevel ? 'var(--accent)' : 'var(--text-secondary)',
+                          borderColor: isHighLevel ? 'rgba(14,165,233,0.3)' : 'var(--border)',
+                        }}
+                      >
+                        {displayLevel}
+                      </span>
+                    </motion.div>
+                  )
+                })}
               </div>
             </div>
           </AnimatedSection>
