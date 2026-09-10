@@ -4,6 +4,7 @@ import { ArrowRight, Github, Linkedin, Download, MapPin } from 'lucide-react'
 import { personal } from '../data'
 import { useLanguage } from '../context/LanguageContext'
 import PipelineTerminal from '../components/PipelineTerminal'
+import NeuralCanvas from '../components/NeuralCanvas'
 
 function useTyping(text: string, speed = 50) {
   const [displayed, setDisplayed] = useState('')
@@ -51,10 +52,13 @@ export default function Hero() {
       style={{ background: 'var(--bg)' }}
       dir={isRTL ? 'rtl' : 'ltr'}
     >
+      {/* Neural network background */}
+      <NeuralCanvas />
+
       {/* Professional background accents — static, no floating animation */}
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{
+        style={{ zIndex: 1,
           background: [
             'radial-gradient(ellipse 60% 50% at 78% 12%, rgba(37,99,235,0.07) 0%, transparent 70%)',
             'radial-gradient(ellipse 40% 35% at 15% 85%, rgba(8,145,178,0.05) 0%, transparent 65%)',
@@ -62,7 +66,7 @@ export default function Hero() {
         }}
       />
 
-      <div className="section-container w-full py-24 relative z-10">
+      <div className="section-container w-full py-24 relative" style={{ zIndex: 2 }}>
         <div className="grid lg:grid-cols-2 gap-14 items-center">
 
           {/* ── Left — Text ── */}
@@ -213,6 +217,7 @@ export default function Hero() {
         animate={{ opacity: 1 }}
         transition={{ delay: 2.2 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        style={{ zIndex: 2 }}
       >
         <span className="font-mono text-xs tracking-widest" style={{ color: 'var(--text-muted)' }}>
           {t.hero.scrollHint}
@@ -227,7 +232,7 @@ export default function Hero() {
         />
       </motion.div>
 
-      <div className="glow-line absolute bottom-0 left-0 right-0" />
+      <div className="glow-line absolute bottom-0 left-0 right-0" style={{ zIndex: 2 }} />
     </section>
   )
 }

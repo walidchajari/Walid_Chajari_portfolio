@@ -5,6 +5,7 @@ import { ThemeProvider } from './context/ThemeContext'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ProgressBar from './components/ProgressBar'
+import DataRouteOverlay from './components/DataRouteOverlay'
 import Home from './pages/Home'
 import ProjectPage from './pages/ProjectPage'
 
@@ -15,6 +16,7 @@ export default function App() {
     <ThemeProvider>
     <LanguageProvider>
       <ProgressBar />
+      <DataRouteOverlay />
       <Navbar />
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
